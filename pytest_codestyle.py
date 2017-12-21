@@ -12,11 +12,11 @@ def pytest_addoption(parser):
                     default=False, help='run pycodestyle')
 
     parser.addini('codestyle_max_line_length', default=pycodestyle.MAX_LINE_LENGTH,
-                  help=f"set maximum allowed line length (default: {default_max_line_length})")
+                  help='set maximum allowed line length (default: {})'.format(default_max_line_length))
     parser.addini('codestyle_select', type='args',
                   help='select errors and warnings (default: [])')
     parser.addini('codestyle_ignore', type='args',
-                  help=f"skip errors and warnings (default: [{' '.join(default_ignore)}])")
+                  help='skip errors and warnings (default: [{}])'.format(' '.join(default_ignore)))
     parser.addini('codestyle_show_source', type="bool", default=True,
                   help='show source code for each error (default: True)')
 
@@ -31,7 +31,7 @@ class Item(pytest.Item, pytest.File):
     CACHE_KEY = 'codestyle/mtimes'
 
     def __init__(self, path, parent):
-        super().__init__(path, parent)
+        super(Item, self).__init__(path, parent)
         self.add_marker('codestyle')
 
     def setup(self):
@@ -44,7 +44,7 @@ class Item(pytest.Item, pytest.File):
         # http://pycodestyle.pycqa.org/en/latest/api.html#pycodestyle.Checker
         # http://pycodestyle.pycqa.org/en/latest/advanced.html
         checker = pycodestyle.Checker(
-                        filename=self.fspath,
+                        filename=self.fspath.strpath,
                         max_line_length=int(self.config.getini('codestyle_max_line_length')),
                         select=self.config.getini('codestyle_select'),
                         ignore=self.config.getini('codestyle_ignore'),
@@ -64,7 +64,7 @@ class Item(pytest.Item, pytest.File):
         if excinfo.errisinstance(CodeStyleError):
             return excinfo.value.args[0]
         else:
-            return super().repr_failure(excinfo)
+            return super(Item, self).repr_failure(excinfo)
 
     def reportinfo(self):
         # https://github.com/pytest-dev/pytest/blob/4678cbeb913385f00cc21b79662459a8c9fafa87/_pytest/main.py#L550

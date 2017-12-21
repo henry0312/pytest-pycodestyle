@@ -10,7 +10,7 @@ setup(
     author_email='henry0312@gmail.com',
     license='MIT',
     py_modules=['pytest_codestyle'],
-    python_requires='>=3.6,<4',
+    python_requires='>=2.7,<3,>=3.6,<4',
     install_requires=[
         'pytest>=3.3,<3.4',
         'py>=1.5,<1.6',
