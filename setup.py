@@ -12,7 +12,7 @@ setup(
     py_modules=['pytest_codestyle'],
     python_requires='>=3.6,<4',
     install_requires=[
-        'pytest>=3.3,<3.4',
+        'pytest>=3.0,<4',
         'py>=1.5,<1.6',
         'pycodestyle>=2.3,<2.4',
     ],
