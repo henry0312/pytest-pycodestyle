@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 setup(
     name='pytest-codestyle',
     version='1.1.1',
@@ -17,7 +16,7 @@ setup(
         'pycodestyle>=2.3,<2.4',
     ],
     # https://docs.pytest.org/en/latest/writing_plugins.html#making-your-plugin-installable-by-others
-    entry_points = {
+    entry_points={
         'pytest11': [
             'codestyle = pytest_codestyle',
         ]
