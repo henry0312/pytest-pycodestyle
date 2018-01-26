@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='pytest-codestyle',
-    version='1.1.1',
+    version='1.1.2',
     description='pytest plugin to run pycodestyle',
     url='https://github.com/henry0312/pytest-codestyle',
     author='Tsukasa OMOTO',
