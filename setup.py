@@ -14,8 +14,12 @@ setup(
         'pytest>=3.0,<4',
         'py>=1.5,<1.6',
         'pycodestyle>=2.3,<2.4',
-        'pytest-isort>=0.1,<1.0',
     ],
+    extras_require={
+        'tests': [
+            'pytest-isort>=0.1,<1.0',
+        ],
+    },
     # https://docs.pytest.org/en/latest/writing_plugins.html#making-your-plugin-installable-by-others
     entry_points={
         'pytest11': [
