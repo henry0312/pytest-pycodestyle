@@ -3,9 +3,9 @@ python:
   - "3.5"
   - "3.6"
 install:
-  - pip install --upgrade tox-travis
+  - pip install -e .[tests]
 script:
-  - tox
+  - pytest
 # https://docs.travis-ci.com/user/notifications/#Configuring-email-notifications
 notifications:
   email:
