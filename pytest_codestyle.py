@@ -4,19 +4,18 @@ import pytest
 
 
 def pytest_addoption(parser):
-    default_max_line_length = pycodestyle.MAX_LINE_LENGTH
-    default_ignore = pycodestyle.DEFAULT_IGNORE.split(',')
-
     group = parser.getgroup('codestyle')
     group.addoption('--codestyle', action='store_true',
                     default=False, help='run pycodestyle')
 
     parser.addini('codestyle_max_line_length', default=pycodestyle.MAX_LINE_LENGTH,
-                  help=f"set maximum allowed line length (default: {default_max_line_length})")
+                  help='set maximum allowed line length (default: {max_line_length})'.format(
+                      max_line_length=pycodestyle.MAX_LINE_LENGTH))
     parser.addini('codestyle_select', type='args',
                   help='select errors and warnings (default: [])')
     parser.addini('codestyle_ignore', type='args',
-                  help=f"skip errors and warnings (default: [{' '.join(default_ignore)}])")
+                  help='skip errors and warnings (default: [{ignored}])'.format(
+                      ignored=pycodestyle.DEFAULT_IGNORE.replace(',', ' ')))
     parser.addini('codestyle_show_source', type="bool", default=True,
                   help='show source code for each error (default: True)')
 
