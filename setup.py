@@ -10,7 +10,7 @@ else:
 for name in packages:
     setup(
         name=name,
-        version='1.1.2',
+        version='1.2.0',
         description='pytest plugin to run pycodestyle',
         url='https://github.com/henry0312/pytest-codestyle',
         author='Tsukasa OMOTO',
