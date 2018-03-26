@@ -17,7 +17,7 @@ for name in packages:
         author_email='henry0312@gmail.com',
         license='MIT',
         py_modules=['pytest_codestyle'],
-        python_requires='>=3.6,<4',
+        python_requires='~=3.5',
         install_requires=[
             'pytest>=3.0,<4',
             'py>=1.5,<1.6',
@@ -40,5 +40,8 @@ for name in packages:
             'Topic :: Software Development :: Testing',
             'License :: OSI Approved :: MIT License',
             'Framework :: Pytest',
+            'Programming Language :: Python :: 3',
+            'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
         ],
     )
