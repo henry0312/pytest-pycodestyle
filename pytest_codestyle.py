@@ -43,7 +43,7 @@ class Item(pytest.Item, pytest.File):
         # http://pycodestyle.pycqa.org/en/latest/api.html#pycodestyle.Checker
         # http://pycodestyle.pycqa.org/en/latest/advanced.html
         checker = pycodestyle.Checker(
-                        filename=self.fspath,
+                        filename=str(self.fspath),
                         max_line_length=int(self.config.getini('codestyle_max_line_length')),
                         select=self.config.getini('codestyle_select'),
                         ignore=self.config.getini('codestyle_ignore'),
