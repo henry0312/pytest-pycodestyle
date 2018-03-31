@@ -6,7 +6,7 @@ version = open('VERSION', 'rb').read().decode('utf-8').strip()
 long_description = open('README.md', 'rb').read().decode('utf-8')
 
 setup(
-    name='pytest-codestyle',
+    name='pytest-pycodestyle',
     version=version,
     description='pytest plugin to run pycodestyle',
     long_description=long_description,
