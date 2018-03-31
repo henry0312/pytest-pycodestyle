@@ -1,4 +1,4 @@
-# pytest-codestyle
+# pytest-pycodestyle
 
 [![PyPI version](https://badge.fury.io/py/pytest-codestyle.svg)](https://pypi.org/project/pytest-codestyle/)
 
@@ -7,7 +7,7 @@
 ## Installation
 
 ```sh
-pip install pytest-codestyle
+pip install pytest-pycodestyle
 ```
 
 ## Usage
