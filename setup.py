@@ -10,6 +10,7 @@ setup(
     version=version,
     description='pytest plugin to run pycodestyle',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/henry0312/pytest-codestyle',
     author='Tsukasa OMOTO',
     author_email='henry0312@gmail.com',
