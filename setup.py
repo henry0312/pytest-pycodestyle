@@ -2,10 +2,14 @@ import os
 
 from setuptools import setup
 
+version = open('VERSION').read().strip()
+long_description = open('README.md').read()
+
 setup(
     name='pytest-codestyle',
-    version='1.2.0',
+    version=version,
     description='pytest plugin to run pycodestyle',
+    long_description=long_description,
     url='https://github.com/henry0312/pytest-codestyle',
     author='Tsukasa OMOTO',
     author_email='henry0312@gmail.com',
