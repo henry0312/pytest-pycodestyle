@@ -1,6 +1,6 @@
 # pytest-codestyle
 
-[![PyPI version](https://badge.fury.io/py/pytest-codestyle.svg)](https://badge.fury.io/py/pytest-codestyle)
+[![PyPI version](https://badge.fury.io/py/pytest-codestyle.svg)](https://pypi.org/project/pytest-codestyle/)
 
 [pytest](https://docs.pytest.org/en/latest/) plugin to run [pycodestyle](https://github.com/PyCQA/pycodestyle)
 
