@@ -25,6 +25,6 @@ test:
 	pytest .
 .PHONY: test
 
-sdist:
+sdist: clean
 	python setup.py sdist
 .PHONY: sdist
