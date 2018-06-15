@@ -1,6 +1,7 @@
 import py.io
 import pycodestyle
 import pytest
+import fnmatch
 
 
 def pytest_addoption(parser):
@@ -18,6 +19,8 @@ def pytest_addoption(parser):
                       ignored=pycodestyle.DEFAULT_IGNORE.replace(',', ' ')))
     parser.addini('codestyle_show_source', type="bool", default=True,
                   help='show source code for each error (default: True)')
+    parser.addini('codestyle_exclude', type="pathlist",
+                  help='source files to exclude from codestyle')
 
 
 def pytest_collect_file(parent, path):
@@ -38,6 +41,9 @@ class Item(pytest.Item, pytest.File):
         mtime = self.fspath.mtime()
         if old_mtime == mtime:
             pytest.skip('previously passed pycodestyle checks')
+        for path in self.config.getini('codestyle_exclude'):
+            if fnmatch.filter([str(self.fspath)], path):
+                pytest.skip('file is excluded by config')
 
     def runtest(self):
         # http://pycodestyle.pycqa.org/en/latest/api.html#pycodestyle.Checker
