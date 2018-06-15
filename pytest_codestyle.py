@@ -1,7 +1,7 @@
+import fnmatch
 import py.io
 import pycodestyle
 import pytest
-import fnmatch
 
 
 def pytest_addoption(parser):
