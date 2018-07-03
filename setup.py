@@ -3,7 +3,7 @@ import os
 from setuptools import setup
 
 version = open('VERSION').read().strip()
-long_description = open('README.md').read()
+long_description = open('README.md', encoding='utf-8').read()
 
 setup(
     name='pytest-codestyle',
