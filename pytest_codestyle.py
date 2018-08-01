@@ -30,7 +30,7 @@ class Item(pytest.Item, pytest.File):
     CACHE_KEY = 'codestyle/mtimes'
 
     def __init__(self, path, parent):
-        super().__init__(path, parent)
+        super(Item, self).__init__(path, parent)
         self.add_marker('codestyle')
 
     def setup(self):
