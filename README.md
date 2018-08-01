@@ -31,6 +31,14 @@ codestyle_max_line_length = 100
 codestyle_ignore = E302 E501
 ```
 
+## Changelog
+
+### 1.3.0 - Unreleased
+
+- Support for Python 2.7 and 3.4.
+  [fschulze (Florian Schulze)]
+
+
 ## Licence
 
 The MIT License  

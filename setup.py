@@ -3,7 +3,7 @@ import os
 from setuptools import setup
 
 version = open('VERSION').read().strip()
-long_description = open('README.md', encoding='utf-8').read()
+long_description = open('README.md', 'rb').read().decode('utf-8')
 
 setup(
     name='pytest-codestyle',
@@ -16,7 +16,7 @@ setup(
     author_email='henry0312@gmail.com',
     license='MIT',
     py_modules=['pytest_codestyle'],
-    python_requires='~=3.5',
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     install_requires=[
         'pytest~=3.0',
         'py~=1.5',
@@ -39,7 +39,10 @@ setup(
         'Topic :: Software Development :: Testing',
         'License :: OSI Approved :: MIT License',
         'Framework :: Pytest',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
