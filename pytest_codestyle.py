@@ -26,7 +26,6 @@ def pytest_addoption(parser):
 
 def pytest_collect_file(parent, path):
     config = parent.config
-    print(path)
     if config.option.codestyle and path not in config.getoption('codestyle_exclude', []) and path.ext == '.py':
         return Item(path, parent)
 
