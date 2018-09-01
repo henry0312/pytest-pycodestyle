@@ -1,3 +1,5 @@
+import fnmatch
+
 import py.io
 import pycodestyle
 import pytest
@@ -18,11 +20,13 @@ def pytest_addoption(parser):
                       ignored=pycodestyle.DEFAULT_IGNORE.replace(',', ' ')))
     parser.addini('codestyle_show_source', type="bool", default=True,
                   help='show source code for each error (default: True)')
+    parser.addini('codestyle_exclude', type="pathlist", default=[],
+                  help='source files to exclude from codestyle')
 
 
 def pytest_collect_file(parent, path):
     config = parent.config
-    if config.option.codestyle and path.ext == '.py':
+    if config.option.codestyle and path not in config.getoption('codestyle_exclude', []) and path.ext == '.py':
         return Item(path, parent)
 
 

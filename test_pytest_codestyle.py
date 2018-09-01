@@ -34,6 +34,7 @@ def test_ini(testdir):
         codestyle_max_line_length = 80
         codestyle_select = a b c
         codestyle_ignore = d e f
+        codestyle_exclude = exclude.py path/to/another/exclude.py
     """)
     p = testdir.makepyfile("""
         def test_ini(request):
@@ -45,7 +46,9 @@ def test_ini(testdir):
             ignore = ['d', 'e', 'f']
             assert config.getini('codestyle_ignore') == ignore
             assert config.getini('codestyle_show_source') is True
-    """)
+            exclude = ['{dirname}/{base}/exclude.py', '{dirname}/{base}/path/to/another/exclude.py']
+            assert config.getini('codestyle_exclude') == exclude
+    """.format(dirname=testdir.tmpdir.dirname, base=testdir.tmpdir.basename))
     p = p.write(p.read() + "\n")
     result = testdir.runpytest('--codestyle')
     result.assert_outcomes(passed=2)
