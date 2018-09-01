@@ -62,6 +62,18 @@ def test_pytest_collect_file(testdir):
     result.assert_outcomes(passed=2)
 
 
+def test_pytest_collect_file_with_exclude(testdir):
+    testdir.makeini("""
+        [pytest]
+        codestyle_exclude = a.py path/to/c.py
+    """)
+    testdir.tmpdir.ensure('a.py')
+    testdir.tmpdir.ensure('b.py')
+    testdir.tmpdir.ensure('path/to/c.py')
+    result = testdir.runpytest('--codestyle')
+    result.assert_outcomes(passed=1)
+
+
 def test_cache(testdir):
     testdir.tmpdir.ensure('a.py')
     # W292 no newline at end of file
