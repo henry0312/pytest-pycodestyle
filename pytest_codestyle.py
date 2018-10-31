@@ -20,14 +20,15 @@ def pytest_addoption(parser):
                       ignored=pycodestyle.DEFAULT_IGNORE.replace(',', ' ')))
     parser.addini('codestyle_show_source', type="bool", default=True,
                   help='show source code for each error (default: True)')
-    parser.addini('codestyle_exclude', type="pathlist",
+    parser.addini('codestyle_exclude', type="args",
                   help='source files to be excluded from codestyle')
 
 
 def pytest_collect_file(parent, path):
     config = parent.config
-    if config.getoption('codestyle') and path.ext == '.py' and path not in config.getini('codestyle_exclude'):
-        return Item(path, parent)
+    if config.getoption('codestyle') and path.ext == '.py':
+        if not any(path.fnmatch(pattern) for pattern in config.getini('codestyle_exclude')):
+            return Item(path, parent)
 
 
 class Item(pytest.Item, pytest.File):
