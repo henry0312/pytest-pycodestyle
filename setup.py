@@ -18,13 +18,12 @@ setup(
     py_modules=['pytest_codestyle'],
     python_requires='~=3.5',
     install_requires=[
-        'pytest~=3.0',
-        'py~=1.5',
-        'pycodestyle~=2.3',
+        'pytest',
+        'pycodestyle',
     ],
     extras_require={
         'tests': [
-            'pytest-isort~=0.1',
+            'pytest-isort',
         ],
     },
     # https://docs.pytest.org/en/latest/writing_plugins.html#making-your-plugin-installable-by-others
