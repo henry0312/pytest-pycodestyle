@@ -24,6 +24,10 @@ def pytest_addoption(parser):
                   help='source files to be excluded from codestyle')
 
 
+def pytest_configure(config):
+    config.addinivalue_line('markers', 'codestyle: mark tests to be checked by pycodestyle.')
+
+
 def pytest_collect_file(parent, path):
     config = parent.config
     if config.getoption('codestyle') and path.ext == '.py':
