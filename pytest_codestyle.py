@@ -77,3 +77,7 @@ class Item(pytest.Item, pytest.File):
 
 class CodeStyleError(Exception):
     """custom exception for error reporting."""
+
+
+def pytest_configure(config):
+    config.addinivalue_line('markers', 'codestyle: Test against pycodestyle')

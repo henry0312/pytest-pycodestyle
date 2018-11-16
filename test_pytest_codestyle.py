@@ -89,6 +89,16 @@ def test_cache(testdir):
     result.assert_outcomes(skipped=1, failed=1)
 
 
+def test_strict(testdir):
+    p = testdir.makepyfile("""
+        def test_blah():
+            pass
+    """)
+    p = p.write(p.read() + "\n")
+    result = testdir.runpytest('--strict', '--codestyle')
+    result.assert_outcomes(passed=2)
+
+
 class TestItem(object):
 
     def test_cache_key(self):
