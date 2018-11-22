@@ -46,9 +46,9 @@ def test_ini(testdir):
             ignore = ['d', 'e', 'f']
             assert config.getini('codestyle_ignore') == ignore
             assert config.getini('codestyle_show_source') is True
-            exclude = ['{dirname}/{base}/exclude.py', '{dirname}/{base}/path/to/another/exclude.py']
+            exclude = ['exclude.py', 'path/to/another/exclude.py']
             assert config.getini('codestyle_exclude') == exclude
-    """.format(dirname=testdir.tmpdir.dirname, base=testdir.tmpdir.basename))
+    """)
     p = p.write(p.read() + "\n")
     result = testdir.runpytest('--codestyle')
     result.assert_outcomes(passed=2)
@@ -65,13 +65,14 @@ def test_pytest_collect_file(testdir):
 def test_pytest_collect_file_with_exclude(testdir):
     testdir.makeini("""
         [pytest]
-        codestyle_exclude = a.py path/to/c.py
+        codestyle_exclude = a.py path/**/?.py
     """)
     testdir.tmpdir.ensure('a.py')
     testdir.tmpdir.ensure('b.py')
     testdir.tmpdir.ensure('path/to/c.py')
+    testdir.tmpdir.ensure('path/to/hoge/foo.py')
     result = testdir.runpytest('--codestyle')
-    result.assert_outcomes(passed=1)
+    result.assert_outcomes(passed=2)
 
 
 def test_cache(testdir):
