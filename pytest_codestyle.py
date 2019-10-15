@@ -43,6 +43,9 @@ class Item(pytest.Item, pytest.File):
         self.add_marker('codestyle')
 
     def setup(self):
+        if not hasattr(self.config, 'cache'):
+            return
+
         old_mtime = self.config.cache.get(self.CACHE_KEY, {}).get(str(self.fspath), -1)
         mtime = self.fspath.mtime()
         if old_mtime == mtime:
@@ -61,7 +64,7 @@ class Item(pytest.Item, pytest.File):
         file_errors, out, err = py.io.StdCapture.call(checker.check_all)
         if file_errors > 0:
             raise CodeStyleError(out)
-        else:
+        elif hasattr(self.config, 'cache'):
             # update cache
             # http://pythonhosted.org/pytest-cache/api.html
             cache = self.config.cache.get(self.CACHE_KEY, {})
