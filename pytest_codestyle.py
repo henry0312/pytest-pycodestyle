@@ -41,6 +41,7 @@ class Item(pytest.Item, pytest.File):
     def __init__(self, path, parent):
         super().__init__(path, parent)
         self.add_marker('codestyle')
+        self._nodeid += '::CODESTYLE'
 
     def setup(self):
         old_mtime = self.config.cache.get(self.CACHE_KEY, {}).get(str(self.fspath), -1)
