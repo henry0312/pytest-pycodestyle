@@ -2,7 +2,7 @@ import os
 
 import pytest_codestyle
 
-# https://docs.pytest.org/en/latest/writing_plugins.html#testing-plugins
+# https://docs.pytest.org/en/5.2.2/writing_plugins.html#testing-plugins
 pytest_plugins = ["pytester"]
 
 
@@ -112,6 +112,17 @@ def test_strict(testdir):
     p = p.write(p.read() + "\n")
     result = testdir.runpytest('--strict', '--codestyle')
     result.assert_outcomes(passed=2)
+
+
+def test_nodeid(testdir):
+    p = testdir.makepyfile("""
+        def test_nodeid():
+            pass
+    """)
+    p = p.write(p.read() + "\n")
+    result = testdir.runpytest('-m', 'codestyle', '--codestyle', '-v')
+    result.assert_outcomes(passed=1)
+    result.stdout.fnmatch_lines(['test_nodeid.py::CODESTYLE PASSED *'])
 
 
 class TestItem(object):
