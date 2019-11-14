@@ -90,6 +90,20 @@ def test_cache(testdir):
     result.assert_outcomes(skipped=1, failed=1)
 
 
+def test_no_cacheprovider(testdir):
+    testdir.tmpdir.ensure('a.py')
+    testdir.makepyfile("""
+        def hello():
+            print('hello')
+    """)
+    # first run
+    result = testdir.runpytest('--codestyle', '-p', 'no:cacheprovider')
+    result.assert_outcomes(passed=1, failed=1)
+    # second run
+    result = testdir.runpytest('--codestyle', '-p', 'no:cacheprovider')
+    result.assert_outcomes(passed=1, failed=1)
+
+
 def test_strict(testdir):
     p = testdir.makepyfile("""
         def test_blah():
