@@ -12,8 +12,8 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/henry0312/pytest-codestyle',
-    author='Tsukasa OMOTO',
-    author_email='henry0312@gmail.com',
+    author='OMOTO Tsukasa',
+    author_email='tsukasa@oomo.to',
     license='MIT',
     py_modules=['pytest_codestyle'],
     python_requires='~=3.5',
@@ -42,5 +42,6 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 )
