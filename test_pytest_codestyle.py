@@ -1,6 +1,6 @@
 import os
 
-import pytest_codestyle
+import pytest_pycodestyle
 
 # https://docs.pytest.org/en/5.2.2/writing_plugins.html#testing-plugins
 pytest_plugins = ["pytester"]
@@ -9,7 +9,7 @@ pytest_plugins = ["pytester"]
 def test_option_false(testdir):
     p = testdir.makepyfile("""
         def test_option(request):
-            flag = request.config.getoption('codestyle')
+            flag = request.config.getoption('pycodestyle')
             assert flag is False
     """)
     p = p.write(p.read() + "\n")
@@ -20,11 +20,11 @@ def test_option_false(testdir):
 def test_option_true(testdir):
     p = testdir.makepyfile("""
         def test_option(request):
-            flag = request.config.getoption('codestyle')
+            flag = request.config.getoption('pycodestyle')
             assert flag is True
     """)
     p = p.write(p.read() + "\n")
-    result = testdir.runpytest('--codestyle')
+    result = testdir.runpytest('--pycodestyle')
     result.assert_outcomes(passed=2)
 
 
@@ -36,7 +36,7 @@ def test_ini(testdir):
     """)
     testdir.tmpdir.ensure('a.py')
     testdir.tmpdir.ensure('b.py')  # to be skipped
-    result = testdir.runpytest('--codestyle')
+    result = testdir.runpytest('--pycodestyle')
     result.assert_outcomes(passed=1)
 
 
@@ -44,7 +44,7 @@ def test_pytest_collect_file(testdir):
     testdir.tmpdir.ensure('a.py')
     testdir.tmpdir.ensure('b.py')
     testdir.tmpdir.ensure('c.txt')
-    result = testdir.runpytest('--codestyle')
+    result = testdir.runpytest('--pycodestyle')
     result.assert_outcomes(passed=2)
 
 
@@ -56,10 +56,10 @@ def test_cache(testdir):
             print('hello')
     """)
     # first run
-    result = testdir.runpytest('--codestyle')
+    result = testdir.runpytest('--pycodestyle')
     result.assert_outcomes(passed=1, failed=1)
     # second run
-    result = testdir.runpytest('--codestyle')
+    result = testdir.runpytest('--pycodestyle')
     result.assert_outcomes(skipped=1, failed=1)
 
 
@@ -70,10 +70,10 @@ def test_no_cacheprovider(testdir):
             print('hello')
     """)
     # first run
-    result = testdir.runpytest('--codestyle', '-p', 'no:cacheprovider')
+    result = testdir.runpytest('--pycodestyle', '-p', 'no:cacheprovider')
     result.assert_outcomes(passed=1, failed=1)
     # second run
-    result = testdir.runpytest('--codestyle', '-p', 'no:cacheprovider')
+    result = testdir.runpytest('--pycodestyle', '-p', 'no:cacheprovider')
     result.assert_outcomes(passed=1, failed=1)
 
 
@@ -83,7 +83,7 @@ def test_strict(testdir):
             pass
     """)
     p = p.write(p.read() + "\n")
-    result = testdir.runpytest('--strict', '--codestyle')
+    result = testdir.runpytest('--strict', '--pycodestyle')
     result.assert_outcomes(passed=2)
 
 
@@ -93,15 +93,15 @@ def test_nodeid(testdir):
             pass
     """)
     p = p.write(p.read() + "\n")
-    result = testdir.runpytest('-m', 'codestyle', '--codestyle', '-v')
+    result = testdir.runpytest('-m', 'pycodestyle', '--pycodestyle', '-v')
     result.assert_outcomes(passed=1)
-    result.stdout.fnmatch_lines(['test_nodeid.py::CODESTYLE PASSED *'])
+    result.stdout.fnmatch_lines(['test_nodeid.py::PYCODESTYLE PASSED *'])
 
 
 class TestItem(object):
 
     def test_cache_key(self):
-        assert pytest_codestyle.Item.CACHE_KEY == 'codestyle/mtimes'
+        assert pytest_pycodestyle.Item.CACHE_KEY == 'pycodestyle/mtimes'
 
     def test_init(self):
         pass
@@ -122,4 +122,4 @@ class TestItem(object):
 class TestCodeStyleError(object):
 
     def test_subclass(self):
-        assert issubclass(pytest_codestyle.CodeStyleError, Exception)
+        assert issubclass(pytest_pycodestyle.PyCodeStyleError, Exception)

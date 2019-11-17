@@ -29,7 +29,7 @@ setup(
     # https://docs.pytest.org/en/latest/writing_plugins.html#making-your-plugin-installable-by-others
     entry_points={
         'pytest11': [
-            'codestyle = pytest_codestyle',
+            'pycodestyle = pytest_pycodestyle',
         ]
     },
     classifiers=[

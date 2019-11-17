@@ -30,7 +30,7 @@ For example,
 max-line-length = 127
 
 [tool:pytest]
-addopts = --codestyle
+addopts = --pycodestyle
 ```
 
 ## Licence
