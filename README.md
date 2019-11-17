@@ -27,10 +27,10 @@ For example,
 
 ```
 [pycodestyle]
-count = False
-ignore = E226,E302,E41
 max-line-length = 127
-statistics = True
+
+[tool:pytest]
+addopts = --codestyle
 ```
 
 ## Licence
