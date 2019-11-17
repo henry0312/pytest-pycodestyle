@@ -23,6 +23,16 @@ For detail, please see `pytest -h` after installation.
 The behavior can be configured in the same style of pycodestyle.  
 (cf. [Configuration — pytest documentation](https://docs.pytest.org/en/latest/customize.html) and [Configuration — pycodestyle documentation](https://pycodestyle.readthedocs.io/en/latest/intro.html#configuration))
 
+For example,
+
+```
+[pycodestyle]
+count = False
+ignore = E226,E302,E41
+max-line-length = 127
+statistics = True
+```
+
 ## Licence
 
 The MIT License  
