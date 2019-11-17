@@ -30,47 +30,20 @@ def test_option_true(testdir):
 
 def test_ini(testdir):
     testdir.makeini("""
-        [pytest]
-        codestyle_max_line_length = 80
-        codestyle_select = a b c
-        codestyle_ignore = d e f
-        codestyle_exclude = exclude.py path/to/another/exclude.py
+        [pycodestyle]
+        max-line-length = 80
+        exclude = b.py
     """)
-    p = testdir.makepyfile("""
-        def test_ini(request):
-            config = request.config
-            max_line_length = '80'
-            assert config.getini('codestyle_max_line_length') == max_line_length
-            select = ['a', 'b', 'c']
-            assert config.getini('codestyle_select') == select
-            ignore = ['d', 'e', 'f']
-            assert config.getini('codestyle_ignore') == ignore
-            assert config.getini('codestyle_show_source') is True
-            exclude = ['exclude.py', 'path/to/another/exclude.py']
-            assert config.getini('codestyle_exclude') == exclude
-    """)
-    p = p.write(p.read() + "\n")
+    testdir.tmpdir.ensure('a.py')
+    testdir.tmpdir.ensure('b.py')  # to be skipped
     result = testdir.runpytest('--codestyle')
-    result.assert_outcomes(passed=2)
+    result.assert_outcomes(passed=1)
 
 
 def test_pytest_collect_file(testdir):
     testdir.tmpdir.ensure('a.py')
     testdir.tmpdir.ensure('b.py')
     testdir.tmpdir.ensure('c.txt')
-    result = testdir.runpytest('--codestyle')
-    result.assert_outcomes(passed=2)
-
-
-def test_pytest_collect_file_with_exclude(testdir):
-    testdir.makeini("""
-        [pytest]
-        codestyle_exclude = a.py path/**/?.py
-    """)
-    testdir.tmpdir.ensure('a.py')
-    testdir.tmpdir.ensure('b.py')
-    testdir.tmpdir.ensure('path/to/c.py')
-    testdir.tmpdir.ensure('path/to/hoge/foo.py')
     result = testdir.runpytest('--codestyle')
     result.assert_outcomes(passed=2)
 
