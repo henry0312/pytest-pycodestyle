@@ -13,7 +13,7 @@ pip install pytest-codestyle
 ## Usage
 
 ```sh
-pytest --codestyle ...
+pytest --pycodestyle ...
 ```
 
 For detail, please see `pytest -h` after installation.
