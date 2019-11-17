@@ -1,5 +1,3 @@
-import fnmatch
-
 import py.io
 import pycodestyle
 import pytest
