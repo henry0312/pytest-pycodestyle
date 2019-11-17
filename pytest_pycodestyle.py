@@ -6,18 +6,18 @@ import pytest
 
 
 def pytest_addoption(parser):
-    group = parser.getgroup('codestyle')
-    group.addoption('--codestyle', action='store_true',
+    group = parser.getgroup('pycodestyle')
+    group.addoption('--pycodestyle', action='store_true',
                     default=False, help='run pycodestyle')
 
 
 def pytest_configure(config):
-    config.addinivalue_line('markers', 'codestyle: mark tests to be checked by pycodestyle.')
+    config.addinivalue_line('markers', 'pycodestyle: mark tests to be checked by pycodestyle.')
 
 
 def pytest_collect_file(parent, path):
     config = parent.config
-    if config.getoption('codestyle') and path.ext == '.py':
+    if config.getoption('pycodestyle') and path.ext == '.py':
         # https://github.com/PyCQA/pycodestyle/blob/2.5.0/pycodestyle.py#L2295
         style_guide = pycodestyle.StyleGuide(paths=[str(path)], verbose=False)
         if not style_guide.excluded(filename=str(path)):
@@ -26,16 +26,16 @@ def pytest_collect_file(parent, path):
 
 
 class Item(pytest.Item, pytest.File):
-    CACHE_KEY = 'codestyle/mtimes'
+    CACHE_KEY = 'pycodestyle/mtimes'
 
     def __init__(self, path, parent, options):
         super().__init__(path, parent)
-        self.add_marker('codestyle')
+        self.add_marker('pycodestyle')
         self.options = options
         # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L380
         # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L101
         # https://github.com/moccu/pytest-isort/blob/44f345560a6125277f7432eaf26a3488c0d39177/pytest_isort.py#L142
-        self._nodeid += '::CODESTYLE'
+        self._nodeid += '::PYCODESTYLE'
 
     def setup(self):
         if not hasattr(self.config, 'cache'):
@@ -53,7 +53,7 @@ class Item(pytest.Item, pytest.File):
                                       options=self.options)
         file_errors, out, err = py.io.StdCapture.call(checker.check_all)
         if file_errors > 0:
-            raise CodeStyleError(out)
+            raise PyCodeStyleError(out)
         elif hasattr(self.config, 'cache'):
             # update cache
             # http://pythonhosted.org/pytest-cache/api.html
@@ -62,7 +62,7 @@ class Item(pytest.Item, pytest.File):
             self.config.cache.set(self.CACHE_KEY, cache)
 
     def repr_failure(self, excinfo):
-        if excinfo.errisinstance(CodeStyleError):
+        if excinfo.errisinstance(PyCodeStyleError):
             return excinfo.value.args[0]
         else:
             return super().repr_failure(excinfo)
@@ -73,5 +73,5 @@ class Item(pytest.Item, pytest.File):
         return self.fspath, None, 'pycodestyle-check'
 
 
-class CodeStyleError(Exception):
+class PyCodeStyleError(Exception):
     """custom exception for error reporting."""
