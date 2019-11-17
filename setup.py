@@ -15,7 +15,7 @@ setup(
     author='OMOTO Tsukasa',
     author_email='tsukasa@oomo.to',
     license='MIT',
-    py_modules=['pytest_codestyle'],
+    py_modules=['pytest_pycodestyle'],
     python_requires='~=3.5',
     install_requires=[
         'pytest',
