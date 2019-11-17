@@ -20,16 +20,8 @@ For detail, please see `pytest -h` after installation.
 
 ## Configuration
 
-You can configure options of pycodestyle with `setup.cfg` (or `pytest.ini`).  
-(cf. [Configuration — pytest documentation](https://docs.pytest.org/en/latest/customize.html))
-
-For example,
-
-```
-[tool:pytest]
-codestyle_max_line_length = 100
-codestyle_ignore = E302 E501
-```
+The behavior can be configured in the same style of pycodestyle.  
+(cf. [Configuration — pytest documentation](https://docs.pytest.org/en/latest/customize.html) and [Configuration — pycodestyle documentation](https://pycodestyle.readthedocs.io/en/latest/intro.html#configuration))
 
 ## Licence
 

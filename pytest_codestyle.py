@@ -10,19 +10,6 @@ def pytest_addoption(parser):
     group.addoption('--codestyle', action='store_true',
                     default=False, help='run pycodestyle')
 
-    parser.addini('codestyle_max_line_length', default=pycodestyle.MAX_LINE_LENGTH,
-                  help='set maximum allowed line length (default: {max_line_length})'.format(
-                      max_line_length=pycodestyle.MAX_LINE_LENGTH))
-    parser.addini('codestyle_select', type='args',
-                  help='select errors and warnings (default: [])')
-    parser.addini('codestyle_ignore', type='args',
-                  help='skip errors and warnings (default: [{ignored}])'.format(
-                      ignored=pycodestyle.DEFAULT_IGNORE.replace(',', ' ')))
-    parser.addini('codestyle_show_source', type="bool", default=True,
-                  help='show source code for each error (default: True)')
-    parser.addini('codestyle_exclude', type="args",
-                  help='source files to be excluded from codestyle')
-
 
 def pytest_configure(config):
     config.addinivalue_line('markers', 'codestyle: mark tests to be checked by pycodestyle.')
@@ -31,17 +18,20 @@ def pytest_configure(config):
 def pytest_collect_file(parent, path):
     config = parent.config
     if config.getoption('codestyle') and path.ext == '.py':
-        if not any(path.fnmatch(pattern) for pattern in config.getini('codestyle_exclude')):
-            return Item(path, parent)
+        # https://github.com/PyCQA/pycodestyle/blob/2.5.0/pycodestyle.py#L2295
+        style_guide = pycodestyle.StyleGuide(paths=[str(path)], verbose=False)
+        if not style_guide.excluded(filename=str(path)):
+            options = style_guide.options
+            return Item(path, parent, options)
 
 
 class Item(pytest.Item, pytest.File):
     CACHE_KEY = 'codestyle/mtimes'
 
-    def __init__(self, path, parent):
+    def __init__(self, path, parent, options):
         super().__init__(path, parent)
         self.add_marker('codestyle')
-
+        self.options = options
         # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L380
         # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L101
         # https://github.com/moccu/pytest-isort/blob/44f345560a6125277f7432eaf26a3488c0d39177/pytest_isort.py#L142
@@ -59,13 +49,8 @@ class Item(pytest.Item, pytest.File):
     def runtest(self):
         # http://pycodestyle.pycqa.org/en/latest/api.html#pycodestyle.Checker
         # http://pycodestyle.pycqa.org/en/latest/advanced.html
-        checker = pycodestyle.Checker(
-                        filename=str(self.fspath),
-                        max_line_length=int(self.config.getini('codestyle_max_line_length')),
-                        select=self.config.getini('codestyle_select'),
-                        ignore=self.config.getini('codestyle_ignore'),
-                        show_source=self.config.getini('codestyle_show_source')
-                    )
+        checker = pycodestyle.Checker(filename=str(self.fspath),
+                                      options=self.options)
         file_errors, out, err = py.io.StdCapture.call(checker.check_all)
         if file_errors > 0:
             raise CodeStyleError(out)
