@@ -1,3 +1,6 @@
+# https://docs.pytest.org/en/latest/writing_plugins.html
+# https://docs.pytest.org/en/latest/example/nonpython.html#yaml-plugin
+
 import py.io
 import pycodestyle
 import pytest
@@ -19,21 +22,34 @@ def pytest_collect_file(parent, path):
         # https://github.com/PyCQA/pycodestyle/blob/2.5.0/pycodestyle.py#L2295
         style_guide = pycodestyle.StyleGuide(paths=[str(path)], verbose=False)
         if not style_guide.excluded(filename=str(path)):
-            options = style_guide.options
-            return Item(path, parent, options)
+            # store options of pycodestyle
+            parent.style_guide_options = style_guide.options
+            # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L477
+            return File.from_parent(parent=parent, fspath=path)
 
 
-class Item(pytest.Item, pytest.File):
+class File(pytest.File):
+
+    def collect(self):
+        # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L399
+        return [Item.from_parent(name=self.name, parent=self.parent, nodeid=self.nodeid, fspath=self.fspath)]
+
+
+class Item(pytest.Item):
     CACHE_KEY = 'pycodestyle/mtimes'
 
-    def __init__(self, path, parent, options):
-        super().__init__(path, parent)
+    def __init__(self, name, parent, nodeid, fspath):
+        nodeid += "::PYCODESTYLE"  # TODO: use f-string
+        # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L544
+        super().__init__(name, parent=parent, nodeid=nodeid)
         self.add_marker('pycodestyle')
-        self.options = options
-        # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L380
-        # https://github.com/pytest-dev/pytest/blob/92d6a0500b9f528a9adcd6bbcda46ebf9b6baf03/src/_pytest/nodes.py#L101
-        # https://github.com/moccu/pytest-isort/blob/44f345560a6125277f7432eaf26a3488c0d39177/pytest_isort.py#L142
-        self._nodeid += '::PYCODESTYLE'
+
+        # update fspath that was defined as parent.fspath in Node.__init__
+        # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L126
+        self.fspath = fspath
+
+        # load options of pycodestyle
+        self.options = parent.style_guide_options
 
     def setup(self):
         if not hasattr(self.config, 'cache'):
