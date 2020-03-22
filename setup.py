@@ -16,7 +16,7 @@ setup(
     author_email='tsukasa@oomo.to',
     license='MIT',
     py_modules=['pytest_pycodestyle'],
-    python_requires='~=3.5',
+    python_requires='~=3.6',
     install_requires=[
         'pytest~=5.4',
         'pycodestyle',

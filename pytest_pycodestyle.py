@@ -39,9 +39,8 @@ class Item(pytest.Item):
     CACHE_KEY = 'pycodestyle/mtimes'
 
     def __init__(self, name, parent, nodeid, fspath):
-        nodeid += "::PYCODESTYLE"  # TODO: use f-string
         # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L544
-        super().__init__(name, parent=parent, nodeid=nodeid)
+        super().__init__(name, parent=parent, nodeid=f"{nodeid}::PYCODESTYLE")
         self.add_marker('pycodestyle')
 
         # update fspath that was defined as parent.fspath in Node.__init__
