@@ -18,7 +18,7 @@ setup(
     py_modules=['pytest_pycodestyle'],
     python_requires='~=3.5',
     install_requires=[
-        'pytest',
+        'pytest~=5.3',
         'pycodestyle',
     ],
     extras_require={
