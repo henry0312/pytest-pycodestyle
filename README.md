@@ -1,13 +1,13 @@
-# pytest-codestyle
+# pytest-pycodestyle
 
-[![PyPI version](https://badge.fury.io/py/pytest-codestyle.svg)](https://pypi.org/project/pytest-codestyle/)
+[![PyPI version](https://badge.fury.io/py/pytest-pycodestyle.svg)](https://pypi.org/project/pytest-pycodestyle/)
 
 [pytest](https://docs.pytest.org/en/latest/) plugin to run [pycodestyle](https://github.com/PyCQA/pycodestyle)
 
 ## Installation
 
 ```sh
-pip install pytest-codestyle
+pip install pytest-pycodestyle
 ```
 
 ## Usage
