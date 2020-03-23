@@ -1,3 +1,5 @@
+import warnings
+
 import py.io
 import pycodestyle
 import pytest
@@ -27,6 +29,9 @@ class Item(pytest.Item, pytest.File):
     CACHE_KEY = 'pycodestyle/mtimes'
 
     def __init__(self, path, parent, options):
+        warnings.warn("pytest-codestyle is no longer supported. "
+                      "Please switch from pytest-codestyle to pytest-pycodestyle "
+                      "(https://pypi.org/project/pytest-pycodestyle/).", DeprecationWarning)
         super().__init__(path, parent)
         self.add_marker('pycodestyle')
         self.options = options
