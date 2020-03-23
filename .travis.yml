@@ -6,9 +6,9 @@ python:
   - "3.8"
   - "nightly"
 install:
-  - pip install -e .[tests]
+  - make setup
 script:
-  - pytest
+  - make test
 # https://docs.travis-ci.com/user/notifications/#Configuring-email-notifications
 notifications:
   email:
