@@ -11,10 +11,11 @@ setup(
     description='pytest plugin to run pycodestyle',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/henry0312/pytest-codestyle',
+    url='https://github.com/henry0312/pytest-pycodestyle',
     author='OMOTO Tsukasa',
     author_email='tsukasa@oomo.to',
     license='MIT',
+    package_dir={'': 'src'},
     py_modules=['pytest_pycodestyle'],
     python_requires='~=3.6',
     install_requires=[

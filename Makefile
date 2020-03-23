@@ -22,7 +22,7 @@ setup:
 .PHONY: setup
 
 test:
-	pytest .
+	pytest src tests
 .PHONY: test
 
 sdist: clean
