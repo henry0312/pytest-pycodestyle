@@ -14,7 +14,7 @@ update: clean uninstall install
 .PHONY: update
 
 clean:
-	${RM} -fr *.egg-info .cache .pytest_cache __pycache__
+	${RM} -fr {.,src,tests}/*.egg-info {.,src,tests}/.cache {.,src,tests}/.pytest_cache {.,src,tests}/__pycache__
 .PHONY: clean
 
 setup:
