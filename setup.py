@@ -17,7 +17,7 @@ setup(
     license='MIT',
     package_dir={'': 'src'},
     py_modules=['pytest_pycodestyle'],
-    python_requires='>=3.6',
+    python_requires='~=3.6',
     install_requires=[
         'pytest>=5.4',
         'pycodestyle',
