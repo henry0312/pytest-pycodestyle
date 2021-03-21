@@ -15,14 +15,20 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version:
+          - 3.6
+          - 3.7
+          - 3.8
+          - 3.9
+          # https://github.com/actions/setup-python/blob/8c5ea631b2b2d5d8840cf4a2b183a8a0edc1e40d/src/find-python.ts#L157-L165
+          - 3.10-dev
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
