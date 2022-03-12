@@ -16,13 +16,13 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.6
-          - 3.7
-          - 3.8
-          - 3.9
-          - 3.10
+          - "3.6"
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
           # https://github.com/actions/setup-python/blob/v3.0.0/src/find-python.ts#L112-L120
-          - 3.11-dev
+          - "3.11-dev"
 
     steps:
       - name: Checkout
