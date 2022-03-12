@@ -20,8 +20,9 @@ jobs:
           - 3.7
           - 3.8
           - 3.9
-          # https://github.com/actions/setup-python/blob/8c5ea631b2b2d5d8840cf4a2b183a8a0edc1e40d/src/find-python.ts#L157-L165
-          - 3.10-dev
+          - 3.10
+          # https://github.com/actions/setup-python/blob/v3.0.0/src/find-python.ts#L112-L120
+          - 3.11-dev
 
     steps:
       - name: Checkout
