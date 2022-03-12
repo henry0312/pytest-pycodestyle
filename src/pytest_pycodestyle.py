@@ -2,6 +2,7 @@
 # https://docs.pytest.org/en/latest/example/nonpython.html#yaml-plugin
 
 import optparse
+import pathlib
 
 import py.io
 import pycodestyle
@@ -18,27 +19,32 @@ def pytest_configure(config):
     config.addinivalue_line('markers', 'pycodestyle: mark tests to be checked by pycodestyle.')
 
 
-def pytest_collect_file(parent, path):
+def pytest_collect_file(file_path: pathlib.Path, path, parent):
+    """Create a Collector for the given path, or None if not relevant.
+
+    See:
+      - https://docs.pytest.org/en/7.0.x/reference/reference.html#pytest.hookspec.pytest_collect_file
+    """
     config = parent.config
-    if config.getoption('pycodestyle') and path.ext == '.py':
+    if config.getoption('pycodestyle') and file_path.suffix == '.py':
         # https://github.com/PyCQA/pycodestyle/blob/2.5.0/pycodestyle.py#L2295
-        style_guide = pycodestyle.StyleGuide(paths=[str(path)], verbose=False)
-        if not style_guide.excluded(filename=str(path)):
-            # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L477
-            return File.from_parent(parent=parent, fspath=path, style_guide_options=style_guide.options)
+        style_guide = pycodestyle.StyleGuide(paths=[str(file_path)], verbose=False)
+        if not style_guide.excluded(filename=str(file_path)):
+            return File.from_parent(parent=parent, path=file_path, style_guide_options=style_guide.options)
 
 
 class File(pytest.File):
 
     @classmethod
-    def from_parent(cls, parent, fspath, style_guide_options: optparse.Values):
-        _file = super().from_parent(parent=parent, fspath=fspath)
+    def from_parent(cls, parent, path: pathlib.Path, style_guide_options: optparse.Values):
+        # https://github.com/pytest-dev/pytest/blob/3e4c14bfaa046bcb5b75903470accf83d93f01ce/src/_pytest/nodes.py#L624
+        _file = super().from_parent(parent=parent, path=path)
         # store options of pycodestyle
         _file.style_guide_options = style_guide_options
         return _file
 
     def collect(self):
-        # https://github.com/pytest-dev/pytest/blob/ee1950af7793624793ee297e5f48b49c8bdf2065/src/_pytest/nodes.py#L399
+        # https://github.com/pytest-dev/pytest/blob/3e4c14bfaa046bcb5b75903470accf83d93f01ce/src/_pytest/nodes.py#L524
         yield Item.from_parent(parent=self, name=self.name, nodeid=self.nodeid)
 
 
