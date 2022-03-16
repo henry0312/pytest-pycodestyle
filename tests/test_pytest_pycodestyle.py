@@ -83,7 +83,7 @@ def test_strict(testdir):
             pass
     """)
     p = p.write(p.read() + "\n")
-    result = testdir.runpytest('--strict', '--pycodestyle')
+    result = testdir.runpytest('--strict-markers', '--pycodestyle')
     result.assert_outcomes(passed=2)
 
 
