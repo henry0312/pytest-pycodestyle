@@ -19,8 +19,9 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
-          # https://github.com/actions/setup-python/blob/v3.0.0/src/find-python.ts#L112-L120
-          - "3.12-dev"
+          - "3.12"
+          # https://github.com/actions/setup-python/blob/v4.7.1/src/find-python.ts#L162-L166
+          - "3.13-dev"
 
     steps:
       - name: Checkout
