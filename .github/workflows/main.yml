@@ -20,8 +20,9 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
-          # https://github.com/actions/setup-python/blob/v4.7.1/src/find-python.ts#L162-L166
-          - "3.13-dev"
+          - "3.13"
+          # https://github.com/actions/setup-python/blob/v4.8.0/src/find-python.ts#L162-L166
+          # - "3.14-dev"
 
     steps:
       - name: Checkout
