@@ -19,11 +19,11 @@ def pytest_configure(config):
     config.addinivalue_line('markers', 'pycodestyle: mark tests to be checked by pycodestyle.')
 
 
-def pytest_collect_file(file_path: pathlib.Path, path, parent):
+def pytest_collect_file(file_path: pathlib.Path, parent):
     """Create a Collector for the given path, or None if not relevant.
 
     See:
-      - https://docs.pytest.org/en/7.0.x/reference/reference.html#pytest.hookspec.pytest_collect_file
+      - https://docs.pytest.org/en/8.3.x/reference/reference.html#pytest.hookspec.pytest_collect_file
     """
     config = parent.config
     if config.getoption('pycodestyle') and file_path.suffix == '.py':
