@@ -1,10 +1,11 @@
 # https://docs.pytest.org/en/latest/writing_plugins.html
 # https://docs.pytest.org/en/latest/example/nonpython.html#yaml-plugin
 
+import contextlib
+import io
 import optparse
 import pathlib
 
-import py.io
 import pycodestyle
 import pytest
 
@@ -72,7 +73,12 @@ class Item(pytest.Item):
         # http://pycodestyle.pycqa.org/en/latest/advanced.html
         checker = pycodestyle.Checker(filename=str(self.fspath),
                                       options=self.options)
-        file_errors, out, err = py.io.StdCapture.call(checker.check_all)
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            file_errors = checker.check_all()
+        out = stdout.getvalue()
+        err = stderr.getvalue()
         if file_errors > 0:
             raise PyCodeStyleError(out)
         elif hasattr(self.config, 'cache'):
