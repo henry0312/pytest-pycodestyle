@@ -21,7 +21,6 @@ setup(
     install_requires=[
         'pytest>=7.0',
         'pycodestyle',
-        'py',
     ],
     extras_require={
         'tests': [
