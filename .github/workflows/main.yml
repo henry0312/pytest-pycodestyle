@@ -34,7 +34,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Setup
-        run: make setup
+        run: make dev
 
       - name: Test
         run: make test

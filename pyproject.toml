@@ -1,0 +1,75 @@
+# ──────────────────────────────────────────────────────────────
+# Build system
+# ──────────────────────────────────────────────────────────────
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# ──────────────────────────────────────────────────────────────
+# Project metadata
+# ──────────────────────────────────────────────────────────────
+[project]
+name = "pytest-pycodestyle"
+description = "pytest plugin to run pycodestyle"
+readme = "README.md"
+license = "MIT"
+authors = [
+  { name = "OMOTO Tsukasa", email = "tsukasa@oomo.to" }
+]
+requires-python = ">=3.9"
+dynamic = ["version"]
+dependencies = [
+  "pytest>=7.0",
+  "pycodestyle",
+]
+
+# Classifiers must live directly under [project]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Testing",
+  "Framework :: Pytest",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[project.optional-dependencies]
+tests = ["pytest-isort"]
+
+publish = [
+  "build",
+  "twine",
+]
+
+[project.urls]
+Homepage = "https://github.com/henry0312/pytest-pycodestyle"
+
+[project.entry-points."pytest11"]
+pycodestyle = "pytest_pycodestyle"
+
+# ──────────────────────────────────────────────────────────────
+# Setuptools‑specific configuration
+# ──────────────────────────────────────────────────────────────
+[tool.setuptools]
+package-dir = { "" = "src" }
+py-modules = ["pytest_pycodestyle"]
+
+[tool.setuptools.dynamic]
+version = { file = ["VERSION"] }
+
+# ──────────────────────────────────────────────────────────────
+# Configuration migrated from setup.cfg
+# ──────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+addopts = "--isort --pycodestyle"
+norecursedirs = [
+  "build",
+  "dist",
+  "*.egg-info",
+  ".git",
+]
+
